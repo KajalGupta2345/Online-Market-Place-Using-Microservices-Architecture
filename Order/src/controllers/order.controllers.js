@@ -9,7 +9,7 @@ async function createOrder(req, res) {
   const token = req.cookies?.token || req.headers?.Authorization?.split(' ')[1];
 
   try {
-    const cartResponse = await axios.get('http://localhost:5002/api/cart/items', {
+    const cartResponse = await axios.get(':5002/api/cart/items', {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -22,7 +22,7 @@ async function createOrder(req, res) {
       return res.status(400).json({ message: "Cart is empty" });
     }
     const products = await Promise.all(cartResponse.data.cart.items.map(async (item) => {
-      return (await axios.get(`http://localhost:5001/api/products/${item.productId}`, {
+      return (await axios.get(`http://vendex-alb-1417250781.ap-south-1.elb.amazonaws.com/api/products/${item.productId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
