@@ -61,7 +61,7 @@ Matlab: "call bhejo aur jab result aaye tab handle karo"
 
 Example:
 async function fetchData() {
-  const response = await axios.get('http://vendex-alb-1417250781.ap-south-1.elb.amazonaws.com/api/products');
+  const response = await axios.get('http://vendex-alb-1-1449366652.ap-south-1.elb.amazonaws.com/api/products');
   console.log(response.data);
 }
 

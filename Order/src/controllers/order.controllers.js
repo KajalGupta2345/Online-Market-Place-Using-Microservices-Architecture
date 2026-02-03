@@ -22,7 +22,7 @@ async function createOrder(req, res) {
       return res.status(400).json({ message: "Cart is empty" });
     }
     const products = await Promise.all(cartResponse.data.cart.items.map(async (item) => {
-      return (await axios.get(`http://vendex-alb-1417250781.ap-south-1.elb.amazonaws.com/api/products/${item.productId}`, {
+      return (await axios.get(`http://vendex-alb-1-1449366652.ap-south-1.elb.amazonaws.com/api/products/${item.productId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
