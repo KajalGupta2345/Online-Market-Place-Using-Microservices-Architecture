@@ -4,7 +4,9 @@ const jwt = require('jsonwebtoken');
 const agent = require('../agents/agents');
 
 async function initSocketServer(httpServer) {
-    const io = new Server(httpServer, {});
+    const io = new Server(httpServer, {
+        path:"/api/socket/socket.io"
+    });
 
 
     io.use((socket, next) => {
