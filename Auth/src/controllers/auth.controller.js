@@ -123,44 +123,43 @@ async function getUser(req, res) {
 
 async function logoutUser(req, res) {
     const token = req.cookies.token;
-
-    if (token) {
-        await redis.set(`blacklist_${token}`, `true`, `EX`, 24 * 60 * 60);
-    }
-
-    res.clearCookie('token', {
-        httpOnly: true,
-        secure: true
-    });
-
-    res.status(200).json({
-        message: "user logout successfully!"
-    });
-}
-
-async function getUserAddress(req, res) {
     try {
-        const id = req.user._id;
 
-        const user = await userModel.findOne({
-            _id: id
-        });
+        if (token) {
+            const decoded = jwt.decode(token);
 
-        if (!user) {
-            return res.status(404).json({
-                message: "User not found!"
-            });
+            if (decoded?.exp) {
+                const ttl = decoded.exp - Math.floor(Date.now() / 1000);
+
+                if (ttl > 0) {
+                    await redis.set(`blacklist_${token}`, `true`, `EX`, ttl);
+
+                }
+            }
         }
 
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: true
+        });
+
         res.status(200).json({
-            message: "Address fetched successfully",
-            address: user.addresses,
+            message: "user logout successfully!"
         });
     } catch (error) {
-        res.status(500).json({
-            message: error.message,
+        return res.status(500).json({
+            message: "Internal server error"
         });
     }
+
+}
+async function getUserAddress(req, res) {
+
+    res.status(200).json({
+        message: "Address fetched successfully",
+        address: req.user.addresses
+    });
+
 }
 
 async function addUserAddress(req, res) {
@@ -170,8 +169,10 @@ async function addUserAddress(req, res) {
 
         const { addresses } = req.body;
 
-        if (!addresses || !addresses.length) {
-            return res.status(400).json({ message: "At least one address required" });
+        if (!addresses || addresses.length === 0) {
+            return res.status(400).json({
+                message: "At least one address required"
+            });
         }
 
         const user = await userModel.findByIdAndUpdate(

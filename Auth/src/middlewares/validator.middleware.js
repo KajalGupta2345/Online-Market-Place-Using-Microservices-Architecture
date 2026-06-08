@@ -26,7 +26,7 @@ const registerUserValidation = [
     responseWithValidationErrors
 
 ];
-
+ 
 const loginUserValidation = [
     body('username').isString().withMessage('username must be string')
         .isLength({ min: 3 }).withMessage('username must be atleast 3 characters long')

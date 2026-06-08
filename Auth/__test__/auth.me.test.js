@@ -25,7 +25,7 @@ describe('GET /api/auth/me',()=>{
                 zip: '400001'
             }]
         })
-
+ 
         const loginRes = await request(app).post('/api/auth/login').send({
             email: "test@example.com",
             password: "Secret123!"
@@ -36,7 +36,7 @@ describe('GET /api/auth/me',()=>{
         const res = await request(app).get('/api/auth/me').set('Cookie', cookie);
 
         expect(res.statusCode).toBe(200);
-         expect(res.body.user).toBeDefined();
+        expect(res.body.user).toBeDefined();
         expect(res.body.user.username).toBe('john_doe');
         expect(res.body.user.email).toBe('test@example.com');
         expect(res.body.user.password).toBeUndefined();
@@ -60,4 +60,32 @@ describe('GET /api/auth/me',()=>{
       const res = await request(app).get('/api/auth/me').set('cookie',[`token=${fakeToken}`]);
      expect(res.statusCode).toBe(401);
     })
-});
+}); 
+
+// Server Side (Express)
+
+// Server request receive karta hai.
+
+// Request ke headers me cookie aa gayi:
+
+// Cookie: token=abc123
+
+// Ab Express ko direct:
+
+// req.Cookie
+
+// nahi milta.
+
+// Kyuki cookies ko parse karne ka kaam cookie-parser middleware karta hai.
+
+// cookie-parser kya karta hai?
+
+// Ye:
+
+// Cookie: token=abc123
+
+// ko convert karta hai:
+
+// req.cookies = {
+//    token: "abc123"
+// }
