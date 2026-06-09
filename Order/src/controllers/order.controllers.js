@@ -66,10 +66,20 @@ async function createOrder(req, res) {
     
     await publishToQueue('ORDER_SELLER_DASHBOARD.ORDER_CREATED',orders);
     res.status(201).json(orders);
-  } catch (err) {
-    return res.status(500).json({
-      message: err.message
-    });
+ } catch (err) {
+    // ✅ plain Error bhi 400 mein aayegi — err.response check hatao
+    if (
+      err.message === 'cart service down' ||
+      err.message === 'Product service error' ||
+      err.message?.includes('out of stock') ||
+      err.message?.includes('insufficient stock') ||
+      err.message === 'DB error'
+    ) {
+      return res.status(400).json({ message: err.message });
+    }
+
+    // truly unknown errors ke liye 500
+    return res.status(500).json({ message: err.message });
   }
 
 

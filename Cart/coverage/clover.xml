@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1768547278415" clover="3.2.0">
-  <project timestamp="1768547278415" name="All files">
-    <metrics statements="288" coveredstatements="283" conditionals="39" coveredconditionals="37" methods="9" coveredmethods="9" elements="336" coveredelements="329" complexity="0" loc="288" ncloc="288" packages="6" files="7" classes="7"/>
+<coverage generated="1780984891599" clover="3.2.0">
+  <project timestamp="1780984891599" name="All files">
+    <metrics statements="295" coveredstatements="287" conditionals="39" coveredconditionals="37" methods="9" coveredmethods="9" elements="343" coveredelements="333" complexity="0" loc="295" ncloc="295" packages="6" files="7" classes="7"/>
     <package name="src">
-      <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="21" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="app.js" path="C:\Users\kk234\OneDrive\Desktop\Dev with Sheriyans\Cohort Microservices\Cart\src\app.js">
-        <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="21" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -20,6 +20,13 @@
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.controllers">
