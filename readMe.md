@@ -169,7 +169,7 @@ GOOGLE_GEMINI_API_KEY=your_gemini_api_key
 | WebSocket | `response` | Receive AI response stream |
 | WebSocket | `disconnect` | End session |
 
-> Full API documentation: Import any collection from [postman Collections](./postman%20Collections/) folder in Postman.
+> Import any collection from [postman Collections](./postman_Collection/) folder in Postman.
 
 ---
 
