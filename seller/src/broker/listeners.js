@@ -33,6 +33,13 @@ module.exports = function () {
         );
     });
 
+    subscribeToQueue('ORDER_SELLER_DASHBOARD.ORDER_UPDATED', async (data) => {
+        await orderModel.findByIdAndUpdate(
+            data.orderId,
+            { status: data.status }
+        );
+    });
+
     subscribeToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.CREATED', async (payment) => {
         const { _id, ...paymentData } = payment;
         await paymentModel.findOneAndUpdate(
