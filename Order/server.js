@@ -5,7 +5,12 @@ const {connect} = require('./src/broker/broker');
 
 
 connectedToDB();
-connect();
+
+const listeners = require('./src/broker/listeners');
+
+connect().then(() => {
+    listeners();
+});
 
 
 const PORT = process.env.PORT || 5003;
