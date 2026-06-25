@@ -56,7 +56,7 @@ const sendmail = async (to, subject, text, html) => {
             sender: { name: "Vendex Online Market", email: process.env.EMAIL_USER },
             to: [{ email: to }],
             subject,
-            textContent: text,
+            textContent: (text && text.trim()) ? text : "Please view this email in HTML format.",
             htmlContent: html,
         };
 
