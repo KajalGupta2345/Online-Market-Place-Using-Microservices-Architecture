@@ -11,7 +11,8 @@ connect().then(()=>{
 
 
 
+const PORT = process.env.PORT || 5007;
 
-app.listen('5007',()=>{
-    console.log('seller service is running on port 5007');
+app.listen(PORT, () => {
+  console.log(`Seller service running on port ${PORT}`);
 });
