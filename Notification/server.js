@@ -8,6 +8,7 @@ connect().then(()=>{
 });
 
 
-app.listen('5006',()=>{
-    console.log('Notification service is running on port 5006');  
+const PORT = process.env.PORT || 5006;
+app.listen(PORT, () => {
+    console.log(`Notification service is running on port ${PORT}`);
 });
