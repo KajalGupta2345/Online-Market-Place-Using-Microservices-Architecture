@@ -32,13 +32,13 @@ async function createPayment(req, res) {
                 currency: order.currency
             },
         });
-        await publishToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.CREATED',payment);
-        await publishToQueue('PAYMENT_NOTIFICATION.PAYMENT_INITIATED',{
-            email:req.user.email,
-            order:payment.order,
-            username:req.user.username,
-            amount:payment.price.amount/100,
-            currency:payment.price.currency
+        await publishToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.CREATED', payment);
+        await publishToQueue('PAYMENT_NOTIFICATION.PAYMENT_INITIATED', {
+            email: req.user.email,
+            order: payment.order,
+            username: req.user.username,
+            amount: payment.price.amount / 100,
+            currency: payment.price.currency
         });
         return res.status(201).json({
             message: "payment initiated successfully!",
@@ -48,7 +48,6 @@ async function createPayment(req, res) {
         res.status(500).json({
             message: `${err}Internal server error!`
         });
-
     }
 }
 
@@ -61,65 +60,69 @@ async function verifyPayment(req, res) {
         const { validatePaymentVerification } = require('../../node_modules/razorpay/dist/utils/razorpay-utils');
 
         const isValid = validatePaymentVerification(
-             {
+            {
                 order_id: razorpayOrderId,
                 payment_id: paymentId
             },
             signature, secret
         );
 
-    if (!isValid) {
-        return res.status(400).json({
-            message: "Invalid signature"
-        })
-    }
+        if (!isValid) {
+            return res.status(400).json({
+                message: "Invalid signature"
+            });
+        }
 
-    const payment = await paymentModel.findOne({ razorpayOrderId });
+        const payment = await paymentModel.findOne({ razorpayOrderId });
 
-    if (!payment) {
-        return res.status(404).json({
-            message: "payment not found"
+        if (!payment) {
+            return res.status(404).json({
+                message: "payment not found"
+            });
+        }
+
+        payment.paymentId = paymentId;
+        payment.signature = signature;
+        payment.status = "COMPLETED";
+
+        await payment.save();
+
+        await publishToQueue('PAYMENT_ORDER.PAYMENT_COMPLETED', {
+            orderId: payment.order,
+            status: "CONFIRMED"
+        });
+
+        await publishToQueue('PAYMENT_NOTIFICATION.PAYMENT_COMPLETED', {
+            email: req.user.email,
+            username: req.user.username,
+            orderId: payment.order,
+            paymentId: payment.paymentId,
+            signature: payment.signature,
+            price: {
+                amount: payment.price.amount / 100,
+                currency: payment.price.currency
+            }
+        });
+        await publishToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.UPDATED', payment);
+
+        return res.status(200).json({
+            message: "payment verified successfully",
+            payment
+        });
+
+    } catch (err) {
+        console.log("payment verification failed!", err);
+        await publishToQueue('PAYMENT_NOTIFICATION.PAYMENT_FAILED', {
+            email: req.user.email,
+            username: req.user.username,
+            orderId: razorpayOrderId,
+            paymentId: paymentId,
+            signature: signature
+        });
+        res.status(500).json({
+            message: "Internal server error!"
         });
     }
-
-    payment.paymentId = paymentId,
-        payment.signature = signature,
-        payment.status = "COMPLETED"
-
-    await payment.save();
-
-    await publishToQueue('PAYMENT_NOTIFICATION.PAYMENT_COMPLETED', {
-        email: req.user.email,
-        username: req.user.username,
-        orderId: payment.order,
-        paymentId: payment.paymentId,
-        signature: payment.signature,
-        price: {
-            amount: payment.price.amount / 100,
-            currency: payment.price.currency
-        }
-    });
-    await publishToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.UPDATED',payment);
-
-    return res.status(200).json({
-        message: "payment verified successfully",
-        payment
-    });
-
-} catch (err) {
-    console.log("payment verification failed!", err);
-    await publishToQueue('PAYMENT_NOTIFICATION.PAYMENT_FAILED', {
-        email: req.user.email,
-        username: req.user.username,
-        orderId: razorpayOrderId,
-        paymentId: paymentId,
-        signature: signature
-    });
-    res.status(500).json({
-        message: "Internal server error!"
-    });
-
-}
 }
 
 module.exports = {
