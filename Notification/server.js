@@ -3,8 +3,12 @@ const app = require('./src/app');
 const {connect} = require('./src/broker/broker');
 const setListeners = require('./src/broker/listeners');
 
-connect().then(()=>{
+connect().then(() => {
+    console.log('Setting up listeners...');
     setListeners();
+    console.log('Listeners set up successfully');
+}).catch((err) => {
+    console.log('ERROR in connect/setListeners:', err);
 });
 
 
