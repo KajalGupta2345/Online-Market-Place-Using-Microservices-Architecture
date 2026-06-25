@@ -46,7 +46,7 @@ async function createPayment(req, res) {
         });
     } catch (err) {
         res.status(500).json({
-            message: "Internal server error!"
+            message: `${err}Internal server error!`
         });
 
     }
