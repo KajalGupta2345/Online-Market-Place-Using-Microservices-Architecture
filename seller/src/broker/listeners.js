@@ -6,20 +6,42 @@ const paymentModel = require('../models/payment.models');
 
 
 module.exports = function(){
-    subscribeToQueue('AUTH_SELLER_DASHBOARD.USER_CREATED',async(user)=>{
-        await userModel.create(user);
+    subscribeToQueue('AUTH_SELLER_DASHBOARD.USER_CREATED', async(user) => {
+        await userModel.findOneAndUpdate(
+            { username: user.username },
+            user,
+            { upsert: true, new: true }
+        );
     });
 
-    subscribeToQueue('PRODUCT_SELLER_DASHBOARD.PRODUCT_CREATED',async(product)=>{
-        await productModel.create(product);
+    subscribeToQueue('PRODUCT_SELLER_DASHBOARD.PRODUCT_CREATED', async(product) => {
+        await productModel.findOneAndUpdate(
+            { _id: product._id },
+            product,
+            { upsert: true, new: true }
+        );
     });
-    subscribeToQueue('ORDER_SELLER_DASHBOARD.ORDER_CREATED',async(orders)=>{
-        await orderModel.create(orders);
+
+    subscribeToQueue('ORDER_SELLER_DASHBOARD.ORDER_CREATED', async(orders) => {
+        await orderModel.findOneAndUpdate(
+            { _id: orders._id },
+            orders,
+            { upsert: true, new: true }
+        );
     });
-    subscribeToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.CREATED',async(payment)=>{
-        await paymentModel.create(payment);
+
+    subscribeToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.CREATED', async(payment) => {
+        await paymentModel.findOneAndUpdate(
+            { order: payment.order },
+            payment,
+            { upsert: true, new: true }
+        );
     });
-    subscribeToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.UPDATED',async(payment)=>{
-        await paymentModel.findOneAndUpdate({order:payment.order},{...payment});
+
+    subscribeToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.UPDATED', async(payment) => {
+        await paymentModel.findOneAndUpdate(
+            { order: payment.order },
+            { ...payment }
+        );
     });
-}
+}}
