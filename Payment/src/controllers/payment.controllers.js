@@ -14,7 +14,7 @@ async function createPayment(req, res) {
     try {
         const orderId = req.params.orderId;
 
-        const orderResponse = await axios.get(`http://vendex-alb-1-1449366652.ap-south-1.elb.amazonaws.com/api/orders/${orderId}`, {
+        const orderResponse = await axios.get(`${process.env.ORDER_SERVICE_URL}/api/orders/${orderId}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
