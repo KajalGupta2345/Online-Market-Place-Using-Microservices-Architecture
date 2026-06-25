@@ -8,6 +8,7 @@ connectedToDB();
 connect();
 
 
-app.listen('5003',()=>{
-    console.log("order service is listening on port 5003");
+const PORT = process.env.PORT || 5003;
+app.listen(PORT, () => {
+    console.log(`order service is listening on port ${PORT}`);
 });
