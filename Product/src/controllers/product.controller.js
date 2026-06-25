@@ -109,8 +109,9 @@ async function updateProduct(req, res) {
          if (req.body.title) product.title = req.body.title;
         if (req.body.description) product.description = req.body.description;
         if (req.body.category) product.category = req.body.category;
+        if (req.body.stock !== undefined) product.stock = Number(req.body.stock); 
 
-        // ✅ Price mapping (VERY IMPORTANT)
+    
         if (req.body.priceAmount || req.body.priceCurrency) {
             product.price = {
                 amount: req.body.priceAmount ?? product.price.amount,
@@ -118,7 +119,6 @@ async function updateProduct(req, res) {
             };
         }
 
-        // ✅ Images update (safe)
         if (req.files && req.files.length > 0) {
             product.images = req.files.map(file => ({
                 url: file.path,
