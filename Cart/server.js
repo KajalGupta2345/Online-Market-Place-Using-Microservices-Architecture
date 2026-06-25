@@ -5,7 +5,7 @@ const connectedToDb = require('./src/db/db');
 connectedToDb();
 
 
-app.listen('5002',()=>{
-    console.log('cart service is running on port 5002');
-    
+const PORT = process.env.PORT || 5002;
+app.listen(PORT, () => {
+    console.log(`cart service is running on port ${PORT}`);
 });
