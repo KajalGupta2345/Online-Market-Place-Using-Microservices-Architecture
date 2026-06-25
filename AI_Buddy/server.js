@@ -7,7 +7,7 @@ const httpServer = http.createServer(app);
 
 initSocketServer(httpServer);
 
-httpServer.listen('5005',()=>{
-    console.log('Ai-Buddy service is running on port 5005');
+const PORT = process.env.PORT || 5005;
+httpServer.listen(PORT, () => {
+    console.log(`Ai-Buddy service is running on port ${PORT}`);
 });
-
