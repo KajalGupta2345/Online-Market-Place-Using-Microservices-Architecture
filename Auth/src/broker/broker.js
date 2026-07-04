@@ -44,6 +44,6 @@ if (process.env.NODE_ENV === 'test') {
     }
 
     module.exports = {
-        connect, connection, channel, publishToQueue, subscribeToQueue
+        connect, publishToQueue, subscribeToQueue
     };
 }

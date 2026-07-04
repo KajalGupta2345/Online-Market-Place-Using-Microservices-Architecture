@@ -14,7 +14,7 @@ async function registerUser(req, res) {
                     username
                 },
                 {
-                    email
+                    email 
                 }
             ]
         });
@@ -40,7 +40,7 @@ async function registerUser(req, res) {
             ]
         );
 
-        const token = jwt.sign({ id: user._id, username: user.username, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id, username: user.username, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
         res.cookie('token', token, {
             httpOnly: true,
@@ -51,7 +51,7 @@ async function registerUser(req, res) {
         res.status(201).json({
             message: "user registered successfully!",
             user: {
-                id: user._id,
+                id: user._id, 
                 username: user.username,
                 email: user.email,
                 fullname: user.fullname,
@@ -80,16 +80,16 @@ async function loginUser(req, res) {
             ]
         }).select('+password');
         if (!user) {
-            return res.status(401).json({ message: "invalid credentials" });
+            return res.status(401).json({ message: "invalid credentials : user not found" });
         }
 
         const isValidPassword = await bcrypt.compare(password, user.password);
 
         if (!isValidPassword) {
-            return res.status(401).json({ message: "invalid credentials" });
+            return res.status(401).json({ message: "invalid credentials : password is invalid" });
         }
 
-        const token = jwt.sign({ id: user._id, username: user.username, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id, username: user.username, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
         res.cookie('token', token, {
             httpOnly: true,
@@ -119,7 +119,7 @@ async function getUser(req, res) {
         user: req.user
 
     })
-}
+} 
 
 async function logoutUser(req, res) {
     const token = req.cookies.token;
@@ -231,9 +231,6 @@ async function deleteUserAddress(req, res) {
             message: error.message,
         });
     }
-
-
-
 }
 
 module.exports = {

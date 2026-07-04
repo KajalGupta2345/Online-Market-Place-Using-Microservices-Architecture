@@ -8,7 +8,7 @@ async function authMiddleware(req, res, next) {
 
     if (!token) {
         return res.status(401).json({ message: "Unauthorized User" });
-    }
+    } 
     try {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -25,7 +25,13 @@ async function authMiddleware(req, res, next) {
             _id: decoded.id
         }).select('-password');
 
-        req.user = user;
+        if (!user) {                                    
+            return res.status(404).json({
+                message: "user not found!"
+            });
+        }
+
+        req.user = user; 
         next();
 
 

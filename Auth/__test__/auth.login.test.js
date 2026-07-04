@@ -5,8 +5,6 @@ const bcrypt = require('bcryptjs');
 
 
 
-
-
 describe('POST /api/auth/login', () => {
     it('log in with correct credentials and return 200 with user (no password) and sets cookie', async () => {
         const password = "Secret123!";
@@ -54,10 +52,10 @@ describe('POST /api/auth/login', () => {
         });
 
         expect(res.statusCode).toBe(401);
-        expect(res.body.message).toBe('invalid credentials');
+        expect(res.body.message).toBe("invalid credentials : user not found");
     });
     it('rejects wrong password with 401',async()=>{
-         const password = "Secret123!";
+        const password = "Secret123!";
         const hash = await bcrypt.hash(password,10);
         await userModel.create({
             username: 'john_doe',
@@ -82,7 +80,7 @@ describe('POST /api/auth/login', () => {
         });
 
         expect(res.statusCode).toBe(401);
-        expect(res.body.message).toBe('invalid credentials');
+        expect(res.body.message).toBe("invalid credentials : password is invalid");
     });
 
     it('validates missing fields with 400', async () => {

@@ -64,5 +64,5 @@ describe('POST /api/auth/register', () => {
         expect(res.body).toHaveProperty('errors');
         expect(res.body.errors.length).toBeGreaterThan(0);
     });
-
+ 
 });

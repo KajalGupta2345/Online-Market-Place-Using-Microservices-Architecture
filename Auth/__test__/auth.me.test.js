@@ -3,6 +3,7 @@ const app = require('../src/app');
 const userModel = require('../src/models/user.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const redis = require('../src/db/redis');
 
 
 describe('GET /api/auth/me',()=>{
@@ -60,6 +61,48 @@ describe('GET /api/auth/me',()=>{
       const res = await request(app).get('/api/auth/me').set('cookie',[`token=${fakeToken}`]);
      expect(res.statusCode).toBe(401);
     })
+    it('returns 401 when token is blacklisted', async () => {
+    const password = "Secret123!";
+    const hash = await bcrypt.hash(password, 10);
+    await userModel.create({
+        username: 'jane_doe',
+        email: "jane@example.com",
+        password: hash,
+        fullname: {
+            firstname: "Jane",
+            lastname: 'Doe'
+        },
+        addresses: [{
+            street: '456 Test Lane',
+            city: 'Mumbai',
+            state: 'Maharashtra',
+            country: 'India',
+            zip: '400001'
+        }]
+    });
+
+    // Step 1: Login karke valid token/cookie generate karo
+    const loginRes = await request(app).post('/api/auth/login').send({
+        email: "jane@example.com",
+        password: "Secret123!"
+    });
+
+    const cookie = loginRes.headers['set-cookie'][0];
+
+    // Step 2: Cookie string se raw token nikaalo
+    // cookie format: "token=xxxxx; Path=/; HttpOnly"
+    const token = cookie.split(';')[0].split('=')[1];
+
+    // Step 3: Manually is token ko redis blacklist me daal do
+    // (jaise logout ke time hota hai)
+    await redis.set(`blacklist_${token}`, 'true');
+
+    // Step 4: Ab isi (blacklisted) cookie ke sath request bhejo
+    const res = await request(app).get('/api/auth/me').set('Cookie', cookie);
+
+    expect(res.statusCode).toBe(401);
+    expect(res.body.message).toBe('Token has been blacklisted');
+    });
 }); 
 
 // Server Side (Express)

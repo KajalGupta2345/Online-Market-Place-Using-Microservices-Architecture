@@ -15,4 +15,4 @@ router.post('/user/me/addresses',authMiddleware.authMiddleware,validator.addUser
 router.delete('/user/me/addresses/:addressesId',authMiddleware.authMiddleware,authController.deleteUserAddress);
 
 
-module.exports = router; 
+module.exports = router;   

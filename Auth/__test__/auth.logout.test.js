@@ -62,28 +62,3 @@ describe('GET /api/auth/logout', () => {
     });
 });
 
-// Internally kya hota hai?
-
-// Express khud response header bhejta hai.
-
-// Kuch aisa:
-
-// Set-Cookie:
-// token=;
-// Expires=Thu, 01 Jan 1970 00:00:00 GMT
-
-// Dhyan do 👀
-
-// Tumne code me:
-
-// expires: new Date(0)
-
-// nahi likha.
-
-// Lekin:
-
-// res.clearCookie()
-
-// Express internally ye kaam kar deta hai.
-
-// Isi wajah se tumhara test pass ho raha hai.

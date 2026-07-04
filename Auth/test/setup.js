@@ -26,6 +26,7 @@ afterEach(async()=>{
 afterAll(async()=>{
     await mongoose.disconnect();
     await mongoServer.stop();
+    await redis.quit();  
 });
 
 //  Pure Flow ko Ek Example se Samjho:

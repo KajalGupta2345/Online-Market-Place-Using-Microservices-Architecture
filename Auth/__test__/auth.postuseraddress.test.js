@@ -142,5 +142,48 @@ describe('POST user/me/addresses', () => {
         expect(res.statusCode).toBe(401);
         expect(res.body.message).toBe('Token has been blacklisted');
     });
+    it('returns 404 when user no longer exists in DB', async () => {
+    const password = "Secret123!";
+    const hash = await bcrypt.hash(password, 10);
+
+    const user = await userModel.create({
+        username: 'john_doe',
+        email: "test@example.com",
+        password: hash,
+        fullname: {
+            firstname: "John",
+            lastname: 'Doe'
+        }
+    });
+
+    const loginRes = await request(app)
+        .post('/api/auth/login')
+        .send({
+            email: "test@example.com",
+            password: "Secret123!"
+        });
+
+    const cookie = loginRes.headers['set-cookie'][0];
+
+    // Login ke baad user ko DB se delete kar do,
+    // lekin token abhi bhi valid rahega (JWT stateless hota hai)
+    await userModel.findByIdAndDelete(user._id);
+
+    const res = await request(app)
+        .post('/api/auth/user/me/addresses')
+        .set('Cookie', cookie)
+        .send({
+            addresses: [{
+                street: '789 Ghost Street',
+                city: 'Delhi',
+                state: 'Delhi',
+                country: 'India',
+                zip: '110001'
+            }]
+        });
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body.message).toBe('user not found!');
+    });
 
 });
