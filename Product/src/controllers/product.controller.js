@@ -25,12 +25,12 @@ async function createProduct(req, res) {
             title, description, price, images, category, seller
         });
 
-        await publishToQueue('PRODUCT_SELLER_DASHBOARD.PRODUCT_CREATED',product);
-        await publishToQueue('PRODUCT_NOTIFICATION.PRODUCT.CREATED',{
-            productId:product._id,
-            sellerId:seller,
-            email:req.user.email,
-            username:req.user.username
+        await publishToQueue('PRODUCT_SELLER_DASHBOARD.PRODUCT_CREATED', product);
+        await publishToQueue('PRODUCT_NOTIFICATION.PRODUCT.CREATED', {
+            productId: product._id,
+            sellerId: seller,
+            email: req.user.email,
+            username: req.user.username
         });
 
         res.status(201).json({
@@ -106,12 +106,12 @@ async function updateProduct(req, res) {
             return res.status(403).json({ message: "Forbidden" });
         }
 
-         if (req.body.title) product.title = req.body.title;
+        if (req.body.title) product.title = req.body.title;
         if (req.body.description) product.description = req.body.description;
         if (req.body.category) product.category = req.body.category;
-        if (req.body.stock !== undefined) product.stock = Number(req.body.stock); 
+        if (req.body.stock !== undefined) product.stock = Number(req.body.stock);
 
-    
+
         if (req.body.priceAmount || req.body.priceCurrency) {
             product.price = {
                 amount: req.body.priceAmount ?? product.price.amount,
@@ -120,11 +120,20 @@ async function updateProduct(req, res) {
         }
 
         if (req.files && req.files.length > 0) {
-            product.images = req.files.map(file => ({
-                url: file.path,
-                thumbnail: file.path,
-                id: file.filename
-            }));
+
+            if (product.images && product.images.length > 0) {
+                await Promise.all(
+                    product.images.map(image => deleteImage(image.id))
+                );
+            }
+
+            product.images = await Promise.all(
+                req.files.map(file =>
+                    uploadImage({
+                        buffer: file.buffer
+                    })
+                )
+            );
         }
 
         await product.save();

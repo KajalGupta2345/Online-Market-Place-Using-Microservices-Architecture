@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.7% </span>
+                <span class="strong">83.51% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>157/179</span>
+                <span class='fraction'>157/188</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.28% </span>
+                <span class="strong">72.97% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>26/35</span>
+                <span class='fraction'>27/37</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.7% </span>
+                <span class="strong">83.51% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>157/179</span>
+                <span class='fraction'>157/188</span>
             </div>
         
             
@@ -241,7 +241,16 @@
 <a name='L176'></a><a href='#L176'>176</a>
 <a name='L177'></a><a href='#L177'>177</a>
 <a name='L178'></a><a href='#L178'>178</a>
-<a name='L179'></a><a href='#L179'>179</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -352,6 +361,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -361,8 +371,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -446,12 +464,12 @@ async function createProduct(req, res) {
             title, description, price, images, category, seller
         });
 &nbsp;
-        await publishToQueue('PRODUCT_SELLER_DASHBOARD.PRODUCT_CREATED',product);
-        await publishToQueue('PRODUCT_NOTIFICATION.PRODUCT.CREATED',{
-            productId:product._id,
-            sellerId:seller,
-            email:req.user.email,
-            username:req.user.username
+        await publishToQueue('PRODUCT_SELLER_DASHBOARD.PRODUCT_CREATED', product);
+        await publishToQueue('PRODUCT_NOTIFICATION.PRODUCT.CREATED', {
+            productId: product._id,
+            sellerId: seller,
+            email: req.user.email,
+            username: req.user.username
         });
 &nbsp;
         res.status(201).json({
@@ -527,11 +545,12 @@ async function updateProduct(req, res) {
             return res.status(403).json({ message: "Forbidden" });
         }
 &nbsp;
-         if (req.body.title) product.title = req.body.title;
+        if (req.body.title) product.title = req.body.title;
         if (req.body.description) product.description = req.body.description;
         if (req.body.category) <span class="branch-0 cbranch-no" title="branch not covered" >product.category = req.body.category;</span>
+        if (req.body.stock !== undefined) <span class="branch-0 cbranch-no" title="branch not covered" >product.stock = Number(req.body.stock);</span>
 &nbsp;
-        // ✅ Price mapping (VERY IMPORTANT)
+&nbsp;
         if (req.body.priceAmount || req.body.priceCurrency) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >            product.price = {</span>
 <span class="cstat-no" title="statement not covered" >                amount: req.body.priceAmount ?? product.price.amount,</span>
@@ -539,13 +558,21 @@ async function updateProduct(req, res) {
 <span class="cstat-no" title="statement not covered" >            };</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
 &nbsp;
-        // ✅ Images update (safe)
         if (req.files<span class="branch-0 cbranch-no" title="branch not covered" > &amp;&amp; req.files.length &gt; 0)</span> <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >            product.images = req.files.map(file =&gt; ({</span>
-<span class="cstat-no" title="statement not covered" >                url: file.path,</span>
-<span class="cstat-no" title="statement not covered" >                thumbnail: file.path,</span>
-<span class="cstat-no" title="statement not covered" >                id: file.filename</span>
-<span class="cstat-no" title="statement not covered" >            }));</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >            if (product.images &amp;&amp; product.images.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                await Promise.all(</span>
+<span class="cstat-no" title="statement not covered" >                    product.images.map(image =&gt; deleteImage(image.id))</span>
+<span class="cstat-no" title="statement not covered" >                );</span>
+<span class="cstat-no" title="statement not covered" >            }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >            product.images = await Promise.all(</span>
+<span class="cstat-no" title="statement not covered" >                req.files.map(file =&gt;</span>
+<span class="cstat-no" title="statement not covered" >                    uploadImage({</span>
+<span class="cstat-no" title="statement not covered" >                        buffer: file.buffer</span>
+<span class="cstat-no" title="statement not covered" >                    })</span>
+<span class="cstat-no" title="statement not covered" >                )</span>
+<span class="cstat-no" title="statement not covered" >            );</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
 &nbsp;
         await product.save();
@@ -604,7 +631,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-09T06:01:07.007Z
+                at 2026-07-10T11:37:05.382Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -5,7 +5,7 @@ const createAuthMiddleware = require('../middlewares/auth.middleware');
 const productController = require('../controllers/product.controller');
 const productValidator = require('../middlewares/validator.middleware');
 
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({ storage: multer.memoryStorage() }); 
 
 router.post('/', upload.array('images'), createAuthMiddleware(['admin', 'seller']), productValidator.productValidationRules, productController.createProduct);
 router.get('/',productController.getProducts);
@@ -15,4 +15,4 @@ router.get('/seller',createAuthMiddleware(['seller']),productController.getProdu
 router.get('/:id',productController.getProductById);
 
 
-module.exports = router;
+module.exports = router; 

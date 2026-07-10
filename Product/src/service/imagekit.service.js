@@ -23,4 +23,13 @@ async function uploadImage({buffer,folder='/products'}){
     }
 }
 
-module.exports = uploadImage;
+// Delete Image
+async function deleteImage(fileId) {
+    await imagekit.deleteFile(fileId);
+}
+
+module.exports = {
+    uploadImage,
+    deleteImage
+};
+

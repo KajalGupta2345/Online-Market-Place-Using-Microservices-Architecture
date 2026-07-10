@@ -9,7 +9,7 @@ const responseValidationResult = (req, res, next) => {
 };
 
 // Validation rules for creating a product
-const productValidationRules = [
+const productValidationRules = [ 
     body('title').trim()
         .isString().withMessage('title must be a string')
         .notEmpty().withMessage('title is required'),
