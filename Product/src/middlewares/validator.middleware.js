@@ -20,13 +20,14 @@ const productValidationRules = [
     .isLength({ max: 500 })
         .withMessage('description max length is 500 characters'),
     body('priceAmount')
-        .notEmpty()
+        .notEmpty() 
         .withMessage('price amount is required')
         .isFloat({ gt: 0 })
         .withMessage('price amount must be number > 0'),
 
     body('priceCurrency')
-        .optional()
+        .notEmpty() 
+        .withMessage('price currency is required')
         .isIn(['USD', 'INR'])
         .withMessage('priceCurrency must be USD or INR'),
     body('category')

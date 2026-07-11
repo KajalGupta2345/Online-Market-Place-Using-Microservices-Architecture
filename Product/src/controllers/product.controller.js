@@ -1,6 +1,6 @@
 const { publishToQueue } = require('../broker/broker');
 const productModel = require('../models/product.model');
-const uploadImage = require('../service/imagekit.service');
+const { uploadImage, deleteImage } = require('../service/imagekit.service');  
 const mongoose = require('mongoose');
 
 
@@ -48,7 +48,7 @@ async function getProducts(req, res) {
 
     const filter = {};
 
-    if (q) {
+    if (q) { 
         filter.$text = { $search: q }
     }
     if (minPrice) {
