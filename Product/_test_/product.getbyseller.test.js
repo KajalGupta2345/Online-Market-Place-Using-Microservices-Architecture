@@ -11,7 +11,7 @@ jest.mock('../src/service/imagekit.service', () => {
     return {
         uploadImage: jest.fn().mockResolvedValue({
             url: 'http://test-image.com/sample.jpg',
-            thumbnail: 'http://test-image.com/thumb.jpg',
+            thumbnail: 'http://test-image.com/thumb.jpg', 
             id: 'mock_id_123'
         }),
         deleteImage: jest.fn().mockResolvedValue(undefined)
