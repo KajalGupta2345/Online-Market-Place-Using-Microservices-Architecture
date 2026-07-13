@@ -13,4 +13,4 @@ router.delete('/items/:productId',createAuthMiddleware(['user']),cartController.
 router.delete('/items',createAuthMiddleware(['user']),cartController.clearCart);
 router.get('/items',createAuthMiddleware(['user']),cartController.getCart);
 
-module.exports = router;
+module.exports = router;  

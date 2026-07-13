@@ -71,7 +71,7 @@ describe('DELETE /api/cart/items/:productId', () => {
     expect(res.body.message).toBe('items not found');
     });
     it('returns 404 when cart does not exist', async () => {
-    await cartModel.deleteMany({ user: userId }); // remove user's cart
+    await cartModel.deleteMany({ user: userId }); 
 
     const res = await request(app)
         .delete(`/api/cart/items/${productId}`)

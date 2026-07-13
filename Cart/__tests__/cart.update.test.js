@@ -106,5 +106,4 @@ describe('PATCH /api/cart/items/:productId', () => {
 
         expect(res.statusCode).toBe(400);
     })
-
 });

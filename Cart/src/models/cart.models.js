@@ -7,7 +7,7 @@ const cartSchema = new mongoose.Schema({
     },
     items: [
         {
-            productId: {
+            productId: { 
                 type: mongoose.Schema.Types.ObjectId,
                 required: true
             },
@@ -18,9 +18,9 @@ const cartSchema = new mongoose.Schema({
         }
     ]
 },
-    {
-        timestamps: true
-    }
+{
+  timestamps: true
+}
 );
 
 const cartModel = mongoose.model('cart', cartSchema);

@@ -74,7 +74,7 @@ async function deleteItemToCart(req, res) {
 
     if (!mongoose.Types.ObjectId.isValid(productId)) {
     return res.status(400).json({ message: 'Invalid productId' });
-}
+    }
 
 
     const user = req.user;
@@ -142,7 +142,7 @@ async function clearCart(req, res) {
         message: "cart cleared successfully!",
         cart,
     });
-}
+} 
 
 
 module.exports = {

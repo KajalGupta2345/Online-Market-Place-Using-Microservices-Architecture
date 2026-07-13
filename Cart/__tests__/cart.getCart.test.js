@@ -76,7 +76,7 @@ describe('GET /api/cart/items', () => {
         .get('/api/cart/items')
         .set('Authorization', `Bearer ${token}`);
 
-    expect(res.body.totals.itemQuantity).toBe(1);
+     expect(res.body.totals.itemQuantity).toBe(1);
      expect(res.body.totals.totalQuantity).toBe(2);
     });
     it('calculates totals for multiple items', async () => {
@@ -96,12 +96,4 @@ describe('GET /api/cart/items', () => {
     expect(res.body.totals.itemQuantity).toBe(2);
     expect(res.body.totals.totalQuantity).toBe(5);
     });
-
-
-
-
-
-
-  
-
 });
