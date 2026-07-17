@@ -115,7 +115,7 @@ async function getCart(req, res) {
     }
 
     res.status(200).json({
-        message: "cart fetched",
+        message: "cart fetched", 
         cart,
         totals: {
             itemQuantity: cart.items.length,
