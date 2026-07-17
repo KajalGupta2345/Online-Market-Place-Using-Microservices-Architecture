@@ -12,7 +12,7 @@ async function createOrder(req, res) {
     const cartResponse = await axios.get(`${process.env.CART_SERVICE_URL}/api/cart/items`, {
       headers: {
         Authorization: `Bearer ${token}`
-      }
+      } 
     });
 
     const cartItems = cartResponse.data.cart.items;
@@ -78,10 +78,6 @@ async function createOrder(req, res) {
     }
     return res.status(500).json({ message: err.message });
   }
-
-
-
-
 }
 
 async function getMyOrder(req, res) {
@@ -96,7 +92,7 @@ async function getMyOrder(req, res) {
 
     const orders = await orderModel.find({
       user: user.id
-    }).skip(skip).limit(limit).sort({ createdAt: -1 });;
+    }).skip(skip).limit(limit).sort({ createdAt: -1 });
     const totalOrders = await orderModel.countDocuments({ user: user.id });
     const totalPages = Math.ceil(totalOrders / limit);
 

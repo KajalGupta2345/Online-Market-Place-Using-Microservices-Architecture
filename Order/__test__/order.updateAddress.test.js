@@ -5,7 +5,7 @@ const app = require('../src/app');
 const orderModel = require('../src/models/order.models');
 
 
-describe('GET /api/orders/:id/cancel', () => {
+describe('GET /api/orders/:id/address', () => {
     let token;
     let userId;
     let orderId;
@@ -57,8 +57,7 @@ describe('GET /api/orders/:id/cancel', () => {
             username: "john_doe",
             email: "test@example.com",
             role: "seller"
-        },
-            process.env.JWT_SECRET);
+        },process.env.JWT_SECRET);
 
         const res = await request(app)
             .patch(`/api/orders/${orderId}/address`)

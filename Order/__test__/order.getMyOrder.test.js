@@ -18,8 +18,7 @@ describe('GET /api/orders/me', () => {
                 username: "john_doe",
                 email: "test@example.com",
                 role: "user"
-            },
-                process.env.JWT_SECRET);
+            },process.env.JWT_SECRET);
 
     });
 
@@ -51,6 +50,25 @@ describe('GET /api/orders/me', () => {
         expect(res.statusCode).toBe(401);
         expect(res.body.message).toBe('Unauthorized invalid token');
     });
+    it('should return 403 if user does not have permission', async () => {
+      const sellerToken = jwt.sign(
+        {
+          id: new mongoose.Types.ObjectId(),
+          username: 'seller_user',
+          email: 'seller@example.com',
+          role: 'seller' // user nahi hai
+        },
+        process.env.JWT_SECRET
+      );
+    
+      const res = await request(app)
+        .get('/api/orders/me')
+        .set('Authorization', `Bearer ${sellerToken}`)
+    
+      expect(res.statusCode).toBe(403);
+      expect(res.body.message).toBe('Forbidden: insufficient permissions');
+    
+    }); 
 
     it('should return paginated orders', async () => {
         for (let i = 1; i <= 5; i++) {
@@ -73,7 +91,7 @@ describe('GET /api/orders/me', () => {
         expect(res.body.meta.hasNextPage).toBe(true);
         expect(res.body.meta.hasPrevPage).toBe(false);
     });
-     it('should return 2nd page correctly', async () => {
+    it('should return 2nd page correctly', async () => {
     for (let i = 1; i <= 5; i++) {
       await orderModel.create({
         user: userId,
@@ -95,7 +113,7 @@ describe('GET /api/orders/me', () => {
     expect(res.body.meta.hasPrevPage).toBe(true);
     });
     it('should default to page=1 and limit=10 for invalid query params', async () => {
-     await orderModel.create({
+    await orderModel.create({
     user: userId,
     items: [{ product: new mongoose.Types.ObjectId(), quantity: 1, price: { amount: 100, currency: 'INR' } }],
     totalAmount: { amount: 100, currency: 'INR' },
@@ -103,13 +121,13 @@ describe('GET /api/orders/me', () => {
     shippingAddress: { street: 'A', city: 'B', state: 'C', country: 'IN', zip: '123456' }
      });
 
-  const res = await request(app)
+    const res = await request(app)
     .get('/api/orders/me?page=abc&limit=xyz')
     .set('Authorization', `Bearer ${token}`);
 
-  expect(res.status).toBe(200);
-  expect(res.body.meta.page).toBe(1);
-  expect(res.body.meta.limit).toBe(10);
+    expect(res.status).toBe(200);
+    expect(res.body.meta.page).toBe(1);
+    expect(res.body.meta.limit).toBe(10);
     });
 
 });
