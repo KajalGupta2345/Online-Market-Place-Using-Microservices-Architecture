@@ -19,7 +19,7 @@ async function createPayment(req, res) {
                 Authorization: `Bearer ${token}`
             }
         });
-        const price = orderResponse.data.order.totalAmount;
+        const price = orderResponse.data.order.totalAmount; 
 
         const order = await razorpay.orders.create(price);
 
@@ -46,7 +46,7 @@ async function createPayment(req, res) {
         });
     } catch (err) {
         res.status(500).json({
-            message: `${err}Internal server error!`
+            message: `Internal server error!`
         });
     }
 }

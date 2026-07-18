@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.76% </span>
+                <span class="strong">90.76% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>114/127</span>
+                <span class='fraction'>118/130</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.76% </span>
+                <span class="strong">90.76% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>114/127</span>
+                <span class='fraction'>118/130</span>
             </div>
         
             
@@ -189,7 +189,10 @@
 <a name='L124'></a><a href='#L124'>124</a>
 <a name='L125'></a><a href='#L125'>125</a>
 <a name='L126'></a><a href='#L126'>126</a>
-<a name='L127'></a><a href='#L127'>127</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -240,7 +243,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -297,8 +299,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -331,12 +337,12 @@ async function createPayment(req, res) {
     try {
         const orderId = req.params.orderId;
 &nbsp;
-        const orderResponse = await axios.get(`http://vendex-alb-1-1449366652.ap-south-1.elb.amazonaws.com/api/orders/${orderId}`, {
+        const orderResponse = await axios.get(`${process.env.ORDER_SERVICE_URL}/api/orders/${orderId}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
-        const price = orderResponse.data.order.totalAmount;
+        const price = orderResponse.data.order.totalAmount; 
 &nbsp;
         const order = await razorpay.orders.create(price);
 &nbsp;
@@ -349,13 +355,13 @@ async function createPayment(req, res) {
                 currency: order.currency
             },
         });
-        await publishToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.CREATED',payment);
-        await publishToQueue('PAYMENT_NOTIFICATION.PAYMENT_INITIATED',{
-            email:req.user.email,
-            order:payment.order,
-            username:req.user.username,
-            amount:payment.price.amount/100,
-            currency:payment.price.currency
+        await publishToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.CREATED', payment);
+        await publishToQueue('PAYMENT_NOTIFICATION.PAYMENT_INITIATED', {
+            email: req.user.email,
+            order: payment.order,
+            username: req.user.username,
+            amount: payment.price.amount / 100,
+            currency: payment.price.currency
         });
         return res.status(201).json({
             message: "payment initiated successfully!",
@@ -363,9 +369,8 @@ async function createPayment(req, res) {
         });
     } catch (err) {
         res.status(500).json({
-            message: "Internal server error!"
+            message: `Internal server error!`
         });
-&nbsp;
     }
 }
 &nbsp;
@@ -378,65 +383,69 @@ async function verifyPayment(req, res) {
         const { validatePaymentVerification } = require('../../node_modules/razorpay/dist/utils/razorpay-utils');
 &nbsp;
         const isValid = validatePaymentVerification(
-             {
+            {
                 order_id: razorpayOrderId,
                 payment_id: paymentId
             },
             signature, secret
         );
 &nbsp;
-    if (!isValid) {
-        return res.status(400).json({
-            message: "Invalid signature"
-        })
-    }
-&nbsp;
-    const payment = await paymentModel.findOne({ razorpayOrderId });
-&nbsp;
-    if (!payment) {
-        return res.status(404).json({
-            message: "payment not found"
-        });
-    }
-&nbsp;
-    payment.paymentId = paymentId,
-        payment.signature = signature,
-        payment.status = "COMPLETED"
-&nbsp;
-    await payment.save();
-&nbsp;
-    await publishToQueue('PAYMENT_NOTIFICATION.PAYMENT_COMPLETED', {
-        email: req.user.email,
-        username: req.user.username,
-        orderId: payment.order,
-        paymentId: payment.paymentId,
-        signature: payment.signature,
-        price: {
-            amount: payment.price.amount / 100,
-            currency: payment.price.currency
+        if (!isValid) {
+            return res.status(400).json({
+                message: "Invalid signature"
+            });
         }
-    });
-    await publishToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.UPDATED',payment);
 &nbsp;
-    return res.status(200).json({
-        message: "payment verified successfully",
-        payment
-    });
+        const payment = await paymentModel.findOne({ razorpayOrderId });
 &nbsp;
-} <span class="branch-0 cbranch-no" title="branch not covered" >catch (err) {</span>
-<span class="cstat-no" title="statement not covered" >    console.log("payment verification failed!", err);</span>
-<span class="cstat-no" title="statement not covered" >    await publishToQueue('PAYMENT_NOTIFICATION.PAYMENT_FAILED', {</span>
-<span class="cstat-no" title="statement not covered" >        email: req.user.email,</span>
-<span class="cstat-no" title="statement not covered" >        username: req.user.username,</span>
-<span class="cstat-no" title="statement not covered" >        orderId: razorpayOrderId,</span>
-<span class="cstat-no" title="statement not covered" >        paymentId: paymentId,</span>
-<span class="cstat-no" title="statement not covered" >        signature: signature</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >    res.status(500).json({</span>
-<span class="cstat-no" title="statement not covered" >        message: "Internal server error!"</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >}</span>
+        if (!payment) {
+            return res.status(404).json({
+                message: "payment not found"
+            });
+        }
+&nbsp;
+        payment.paymentId = paymentId;
+        payment.signature = signature;
+        payment.status = "COMPLETED";
+&nbsp;
+        await payment.save();
+&nbsp;
+        await publishToQueue('PAYMENT_ORDER.PAYMENT_COMPLETED', {
+            orderId: payment.order,
+            status: "CONFIRMED"
+        });
+&nbsp;
+        await publishToQueue('PAYMENT_NOTIFICATION.PAYMENT_COMPLETED', {
+            email: req.user.email,
+            username: req.user.username,
+            orderId: payment.order,
+            paymentId: payment.paymentId,
+            signature: payment.signature,
+            price: {
+                amount: payment.price.amount / 100,
+                currency: payment.price.currency
+            }
+        });
+        await publishToQueue('PAYMENT_SELLER_DASHBOARD.PAYMENT.UPDATED', payment);
+&nbsp;
+        return res.status(200).json({
+            message: "payment verified successfully",
+            payment
+        });
+&nbsp;
+    } <span class="branch-0 cbranch-no" title="branch not covered" >catch (err) {</span>
+<span class="cstat-no" title="statement not covered" >        console.log("payment verification failed!", err);</span>
+<span class="cstat-no" title="statement not covered" >        await publishToQueue('PAYMENT_NOTIFICATION.PAYMENT_FAILED', {</span>
+<span class="cstat-no" title="statement not covered" >            email: req.user.email,</span>
+<span class="cstat-no" title="statement not covered" >            username: req.user.username,</span>
+<span class="cstat-no" title="statement not covered" >            orderId: razorpayOrderId,</span>
+<span class="cstat-no" title="statement not covered" >            paymentId: paymentId,</span>
+<span class="cstat-no" title="statement not covered" >            signature: signature</span>
+<span class="cstat-no" title="statement not covered" >        });</span>
+<span class="cstat-no" title="statement not covered" >        res.status(500).json({</span>
+<span class="cstat-no" title="statement not covered" >            message: "Internal server error!"</span>
+<span class="cstat-no" title="statement not covered" >        });</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
 }
 &nbsp;
 module.exports = {
@@ -448,7 +457,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-09T06:06:10.764Z
+                at 2026-07-18T10:36:29.776Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
