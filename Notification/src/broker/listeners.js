@@ -11,7 +11,7 @@ module.exports = function () {
                 We’re excited to have you on board!
               </p>
               <p>
-                Your account has been successfully created using this email
+                Your account has been successfully created using this email.  
               </p>
                <p>
                 You can now log in and start exploring our features.

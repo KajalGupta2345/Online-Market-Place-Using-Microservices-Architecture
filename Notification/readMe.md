@@ -87,7 +87,7 @@ Technical terms mein, Nodemailer aapka NPM Package hai jo Node.js mein email bhe
 Nodemailer: Ye ek wrapper hai jo complex code ko aasaan banata hai.
 Transporter: Ye wo configuration object hai jisme aapka SMTP (Simple Mail Transfer Protocol) server address, port aur login details hoti hain. Jab aap createTransport karte hain, tab aap basically ek "Communication Channel" setup kar rahe hote hain.
 
-## 🔹 Step 2: Authentication
+## 🔹 Step 2: Authentication 
 
 ### *(The Secure Handshake)*
 
