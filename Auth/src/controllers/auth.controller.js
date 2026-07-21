@@ -34,7 +34,7 @@ async function registerUser(req, res) {
                     id: user._id,
                     username: username,
                     email: user.email,
-                    fullname: user.fullname
+                    fullname: user.fullname 
                 }),
                 publishToQueue('AUTH_SELLER_DASHBOARD.USER_CREATED', user)
             ]
