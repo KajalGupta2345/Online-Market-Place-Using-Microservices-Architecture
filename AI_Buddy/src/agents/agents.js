@@ -12,19 +12,27 @@ const model = new ChatGoogleGenerativeAI({
 
 const graph = new StateGraph(MessagesAnnotation)
 .addNode("tools",async(state,config)=>{ 
-    // console.log(state);
+    console.log(state);
     const lastMessage = state.messages[state.messages.length-1];
+    console.log(lastMessage);
+    
 
-    const toolsCall = lastMessage.tool_calls;    
+    const toolsCall = lastMessage.tool_calls;  
+    console.log(toolsCall);
+      
 
     const toolCallResults = await Promise.all(toolsCall.map(async(call)=>{
        const tool = tools[call.name];
+       console.log(tool);
+       
 
        if(!tool){
         throw new Error(`Tool ${call.name} not found`);
        }
        const toolInput = call.args;
-    //    console.log(call,config);
+       console.log(call,config);
+       console.log(toolInput);
+       
        
 
        const toolResult = await tool.func({...toolInput,token:config.metadata.token});
