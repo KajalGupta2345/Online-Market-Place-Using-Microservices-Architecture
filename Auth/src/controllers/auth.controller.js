@@ -10,12 +10,8 @@ async function registerUser(req, res) {
 
         const isUserAlreadyExists = await userModel.findOne({
             $or: [
-                {
-                    username
-                },
-                {
-                    email 
-                }
+                { username },
+                { email }
             ]
         });
 
@@ -45,6 +41,7 @@ async function registerUser(req, res) {
         res.cookie('token', token, {
             httpOnly: true,
             secure: true,
+            sameSite: 'none',
             maxAge: 24 * 60 * 60 * 1000
         });
 
@@ -57,7 +54,6 @@ async function registerUser(req, res) {
                 fullname: user.fullname,
                 role: user.role,
             }
-
         });
     } catch (error) {
         console.log(error);
@@ -71,12 +67,8 @@ async function loginUser(req, res) {
 
         const user = await userModel.findOne({
             $or: [
-                {
-                    username
-                },
-                {
-                    email
-                }
+                { username },
+                { email }
             ]
         }).select('+password');
         if (!user) {
@@ -94,6 +86,7 @@ async function loginUser(req, res) {
         res.cookie('token', token, {
             httpOnly: true,
             secure: true,
+            sameSite: 'none',
             maxAge: 24 * 60 * 60 * 1000
         });
 
@@ -117,30 +110,26 @@ async function getUser(req, res) {
     return res.status(200).json({
         message: "current user fetched successfully!",
         user: req.user
-
     })
 } 
 
 async function logoutUser(req, res) {
     const token = req.cookies.token;
     try {
-
         if (token) {
             const decoded = jwt.decode(token);
-
             if (decoded?.exp) {
                 const ttl = decoded.exp - Math.floor(Date.now() / 1000);
-
                 if (ttl > 0) {
                     await redis.set(`blacklist_${token}`, `true`, `EX`, ttl);
-
                 }
             }
         }
 
         res.clearCookie('token', {
             httpOnly: true,
-            secure: true
+            secure: true,
+            sameSite: 'none'
         });
 
         res.status(200).json({
@@ -151,22 +140,18 @@ async function logoutUser(req, res) {
             message: "Internal server error"
         });
     }
-
 }
-async function getUserAddress(req, res) {
 
+async function getUserAddress(req, res) {
     res.status(200).json({
         message: "Address fetched successfully",
         address: req.user.addresses
     });
-
 }
 
 async function addUserAddress(req, res) {
     try {
         const id = req.user._id;
-
-
         const { addresses } = req.body;
 
         if (!addresses || addresses.length === 0) {
@@ -177,16 +162,12 @@ async function addUserAddress(req, res) {
 
         const user = await userModel.findByIdAndUpdate(
             id,
-            {
-                $push: {
-                    addresses: addresses
-                }
-            }, { new: true });
+            { $push: { addresses: addresses } },
+            { new: true }
+        );
 
         if (!user) {
-            return res.status(404).json({
-                message: "user not found!"
-            });
+            return res.status(404).json({ message: "user not found!" });
         }
 
         res.status(200).json({
@@ -194,12 +175,8 @@ async function addUserAddress(req, res) {
             address: user.addresses
         });
     } catch (error) {
-        res.status(500).json({
-            message: error.message,
-        });
+        res.status(500).json({ message: error.message });
     }
-
-
 }
 
 async function deleteUserAddress(req, res) {
@@ -209,17 +186,12 @@ async function deleteUserAddress(req, res) {
 
         const user = await userModel.findByIdAndUpdate(
             id,
-            {
-                $pull: {
-                    addresses: { _id: addressId }
-                }
-            }, { new: true }
+            { $pull: { addresses: { _id: addressId } } },
+            { new: true }
         );
 
         if (!user) {
-            return res.status(404).json({
-                message: "user not found!"
-            });
+            return res.status(404).json({ message: "user not found!" });
         }
 
         res.status(200).json({
@@ -227,9 +199,7 @@ async function deleteUserAddress(req, res) {
             address: user.addresses
         });
     } catch (error) {
-        res.status(500).json({
-            message: error.message,
-        });
+        res.status(500).json({ message: error.message });
     }
 }
 
