@@ -1,6 +1,7 @@
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const sellerRoutes = require('./routes/seller.routes');
+const cors = require('cors');
 
 const app = express();
 
