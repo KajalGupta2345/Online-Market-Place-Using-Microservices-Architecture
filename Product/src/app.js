@@ -5,7 +5,13 @@ const productRoutes = require('./routes/product.routes');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://<tumhara-deployed-frontend-domain-agar-hai>'
+  ],
+  credentials: true
+}));
 // app.use(cors({
 //     origin: "http://localhost:5173"
 // }));

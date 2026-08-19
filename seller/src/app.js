@@ -4,6 +4,14 @@ const sellerRoutes = require('./routes/seller.routes');
 
 const app = express();
 
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://<tumhara-deployed-frontend-domain-agar-hai>'
+  ],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 
