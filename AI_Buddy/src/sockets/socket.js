@@ -5,7 +5,7 @@ const agent = require('../agents/agents');
 
 async function initSocketServer(httpServer) {
     const io = new Server(httpServer, {
-        path:"/api/socket/socket.io"
+        path: "/api/socket/socket.io"
     });
 
 
@@ -40,7 +40,7 @@ async function initSocketServer(httpServer) {
                         content: data
                     }
                 ]
-            },
+                },
                 {
                     metadata: {
                         token: socket.token
@@ -49,6 +49,8 @@ async function initSocketServer(httpServer) {
 
             );
             const lastMessage = agentResponse.messages[agentResponse.messages.length - 1];
+            console.log(lastMessage);
+            
 
             socket.emit('message', lastMessage.content);
         });

@@ -108,7 +108,7 @@ async function getProducts(req, res) {
     }
 }
 
-
+ 
 module.exports = {
     getMetrics, getOrders, getProducts
 }
