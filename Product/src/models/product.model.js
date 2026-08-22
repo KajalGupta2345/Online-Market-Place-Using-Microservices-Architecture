@@ -28,9 +28,6 @@ const productSchema = new mongoose.Schema({
     category:{
         type:String,
     },
-    stock:{
-        type:Number,
-    },
     seller:{
         type:mongoose.Schema.Types.ObjectId,
         required:true
