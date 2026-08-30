@@ -1,0 +1,157 @@
+{
+  "info": {
+    "_postman_id": "18f48374-4b90-40f5-b54b-33f0d4e87243",
+    "name": "Order",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49263724",
+    "_collection_link": "https://go.postman.co/collection/49263724-18f48374-4b90-40f5-b54b-33f0d4e87243?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "create order",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"shippingAddress\": {\r\n    \"street\": \"House No 21, MG Road\",\r\n    \"city\": \"Indore\",\r\n    \"state\": \"Madhya Pradesh\",\r\n    \"country\": \"India\",\r\n    \"zip\": \"452001\"\r\n  }\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5003/api/orders/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5003",
+          "path": [
+            "api",
+            "orders",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get oder",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"shippingAddress\": {\r\n    \"street\": \"House No 21, MG Road\",\r\n    \"city\": \"Indore\",\r\n    \"state\": \"Madhya Pradesh\",\r\n    \"country\": \"India\",\r\n    \"zip\": \"452001\"\r\n  }\r\n}\r\n"
+        },
+        "url": {
+          "raw": "http://localhost:5003/api/orders/me",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5003",
+          "path": [
+            "api",
+            "orders",
+            "me"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get order by id",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"shippingAddress\": {\r\n    \"street\": \"House No 21, MG Road\",\r\n    \"city\": \"Indore\",\r\n    \"state\": \"Madhya Pradesh\",\r\n    \"country\": \"India\",\r\n    \"zip\": \"452001\"\r\n  }\r\n}\r\n"
+        },
+        "url": {
+          "raw": "http://localhost:5003/api/orders/696f2af6e74deec53e019961",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5003",
+          "path": [
+            "api",
+            "orders",
+            "696f2af6e74deec53e019961"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update address",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"shippingAddress\": {\r\n    \"street\": \"House No 21, MG Road1\",\r\n    \"city\": \"Indore\",\r\n    \"state\": \"Madhya Pradesh\",\r\n    \"country\": \"India\",\r\n    \"zip\": \"452001\"\r\n  }\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5003/api/orders/696f2af6e74deec53e019961/address",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5003",
+          "path": [
+            "api",
+            "orders",
+            "696f2af6e74deec53e019961",
+            "address"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cancel order",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"shippingAddress\": {\r\n    \"street\": \"House No 21, MG Road1\",\r\n    \"city\": \"Indore\",\r\n    \"state\": \"Madhya Pradesh\",\r\n    \"country\": \"India\",\r\n    \"zip\": \"452001\"\r\n  }\r\n}\r\n"
+        },
+        "url": {
+          "raw": "http://localhost:5003/api/orders/696f2af6e74deec53e019961/cancel",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5003",
+          "path": [
+            "api",
+            "orders",
+            "696f2af6e74deec53e019961",
+            "cancel"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

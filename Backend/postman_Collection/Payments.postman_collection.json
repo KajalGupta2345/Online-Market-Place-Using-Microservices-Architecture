@@ -1,0 +1,72 @@
+{
+  "info": {
+    "_postman_id": "8ae2eaaf-444c-4287-bc4c-1fa912138615",
+    "name": "Payments",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49263724",
+    "_collection_link": "https://go.postman.co/collection/49263724-8ae2eaaf-444c-4287-bc4c-1fa912138615?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "create payment",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5004/api/payment/create/697f245f269e6fe04fcfb51d",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5004",
+          "path": [
+            "api",
+            "payment",
+            "create",
+            "697f245f269e6fe04fcfb51d"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "verify payment",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"razorpayOrderId\": \"order_S9xXp0MTB4q7IW\",\r\n    \"paymentId\":\"pay_S9xYA2UIvmBEuY\",\r\n    \"signature\": \"42faa2dc8fb01bd3b7b38a386d474531d485b8c8d1a334cdb12ae001eb7a94f3\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5004/api/payment/verify",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5004",
+          "path": [
+            "api",
+            "payment",
+            "verify"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

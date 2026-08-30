@@ -1,0 +1,372 @@
+{
+  "info": {
+    "_postman_id": "ef054d26-97b1-4b94-9145-160168ab858c",
+    "name": "Product",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49263724",
+    "_collection_link": "https://go.postman.co/collection/49263724-ef054d26-97b1-4b94-9145-160168ab858c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "create product",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjBjY2JjYjAzN2FjOTY1YmUzMTI5YiIsInVzZXJuYW1lIjoia2FqYWxfNDIyMCIsImVtYWlsIjoia2syMzQ3OTk0QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY4MDUxMTA5LCJleHAiOjE3NjgwNTQ3MDl9.tlDa5FOYRYGiiibQZCyVshEY0ULllIuuod9hjZWwKho; Path=/; Secure; HttpOnly; Expires=Sun, 11 Jan 2026 13:18:29 GMT",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "title",
+              "value": "test_title2",
+              "type": "text",
+              "uuid": "fbd55621-1cd2-41b0-9faf-786ff5fd9166"
+            },
+            {
+              "key": "description",
+              "value": "test_description2",
+              "type": "text",
+              "uuid": "845d1211-f5c8-47dd-bbcf-f9c758e8c2e0"
+            },
+            {
+              "key": "priceAmount",
+              "value": "4000",
+              "type": "text",
+              "uuid": "e64939e3-f0b2-46a4-bbc6-a004cbc9ac2f"
+            },
+            {
+              "key": "priceCurrency",
+              "value": "INR",
+              "type": "text",
+              "uuid": "e8c9055b-9931-404e-b9e5-695fede0da07"
+            },
+            {
+              "key": "images",
+              "type": "file",
+              "uuid": "1d9efaec-1e3e-46bd-a64a-fdc1698ccec8",
+              "src": [
+                "/C:/Users/kk234/OneDrive/Pictures/premium_photo-1661915661139-5b6a4e4a6fcc.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1510798831971-661eb04b3739.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1512917774080-9991f1c4c750.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1528228953047-fb292ecb300f.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1594872661628-602b96d31367.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1597682496035-b04f723202a4.avif"
+              ]
+            },
+            {
+              "key": "category",
+              "value": "test_category2",
+              "type": "text",
+              "uuid": "f62d0136-c576-42eb-9324-080371b5b710"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:5001/api/products/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5001",
+          "path": [
+            "api",
+            "products",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5001/api/products/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5001",
+          "path": [
+            "api",
+            "products",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getProductById",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjBjY2JjYjAzN2FjOTY1YmUzMTI5YiIsInVzZXJuYW1lIjoia2FqYWxfNDIyMCIsImVtYWlsIjoia2syMzQ3OTk0QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY4MDUxMTA5LCJleHAiOjE3NjgwNTQ3MDl9.tlDa5FOYRYGiiibQZCyVshEY0ULllIuuod9hjZWwKho; Path=/; Secure; HttpOnly; Expires=Sun, 11 Jan 2026 13:18:29 GMT",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "title",
+              "value": "test_title",
+              "type": "text",
+              "uuid": "fbd55621-1cd2-41b0-9faf-786ff5fd9166"
+            },
+            {
+              "key": "description",
+              "value": "test_description",
+              "type": "text",
+              "uuid": "845d1211-f5c8-47dd-bbcf-f9c758e8c2e0"
+            },
+            {
+              "key": "priceAmount",
+              "value": "1000",
+              "type": "text",
+              "uuid": "e64939e3-f0b2-46a4-bbc6-a004cbc9ac2f"
+            },
+            {
+              "key": "priceCurrency",
+              "value": "INR",
+              "type": "text",
+              "uuid": "e8c9055b-9931-404e-b9e5-695fede0da07"
+            },
+            {
+              "key": "images",
+              "type": "file",
+              "uuid": "1d9efaec-1e3e-46bd-a64a-fdc1698ccec8",
+              "src": [
+                "/C:/Users/kk234/OneDrive/Pictures/premium_photo-1661915661139-5b6a4e4a6fcc.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1510798831971-661eb04b3739.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1512917774080-9991f1c4c750.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1528228953047-fb292ecb300f.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1594872661628-602b96d31367.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1597682496035-b04f723202a4.avif"
+              ]
+            },
+            {
+              "key": "category",
+              "value": "test_category",
+              "type": "text",
+              "uuid": "f62d0136-c576-42eb-9324-080371b5b710"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:5001/api/products/696773b65033e4891878a742",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5001",
+          "path": [
+            "api",
+            "products",
+            "696773b65033e4891878a742"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update product",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjBjY2JjYjAzN2FjOTY1YmUzMTI5YiIsInVzZXJuYW1lIjoia2FqYWxfNDIyMCIsImVtYWlsIjoia2syMzQ3OTk0QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY4MDUxMTA5LCJleHAiOjE3NjgwNTQ3MDl9.tlDa5FOYRYGiiibQZCyVshEY0ULllIuuod9hjZWwKho; Path=/; Secure; HttpOnly; Expires=Sun, 11 Jan 2026 13:18:29 GMT",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "title",
+              "value": "test_title1",
+              "type": "text",
+              "uuid": "fbd55621-1cd2-41b0-9faf-786ff5fd9166"
+            },
+            {
+              "key": "description",
+              "value": "test_description2",
+              "type": "text",
+              "uuid": "845d1211-f5c8-47dd-bbcf-f9c758e8c2e0"
+            },
+            {
+              "key": "priceAmount",
+              "value": "1200",
+              "type": "text",
+              "uuid": "e64939e3-f0b2-46a4-bbc6-a004cbc9ac2f"
+            },
+            {
+              "key": "priceCurrency",
+              "value": "INR",
+              "type": "text",
+              "uuid": "e8c9055b-9931-404e-b9e5-695fede0da07"
+            },
+            {
+              "key": "images",
+              "type": "file",
+              "uuid": "1d9efaec-1e3e-46bd-a64a-fdc1698ccec8",
+              "src": [
+                "/C:/Users/kk234/OneDrive/Pictures/premium_photo-1661915661139-5b6a4e4a6fcc.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1510798831971-661eb04b3739.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1512917774080-9991f1c4c750.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1528228953047-fb292ecb300f.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1594872661628-602b96d31367.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1597682496035-b04f723202a4.avif"
+              ]
+            },
+            {
+              "key": "category",
+              "value": "test_category1",
+              "type": "text",
+              "uuid": "f62d0136-c576-42eb-9324-080371b5b710"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:5001/api/products/69675fdc4e56a57d4fe9d8db",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5001",
+          "path": [
+            "api",
+            "products",
+            "69675fdc4e56a57d4fe9d8db"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete product",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjBjY2JjYjAzN2FjOTY1YmUzMTI5YiIsInVzZXJuYW1lIjoia2FqYWxfNDIyMCIsImVtYWlsIjoia2syMzQ3OTk0QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY4MDUxMTA5LCJleHAiOjE3NjgwNTQ3MDl9.tlDa5FOYRYGiiibQZCyVshEY0ULllIuuod9hjZWwKho; Path=/; Secure; HttpOnly; Expires=Sun, 11 Jan 2026 13:18:29 GMT",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "title",
+              "value": "test_title",
+              "type": "text",
+              "uuid": "fbd55621-1cd2-41b0-9faf-786ff5fd9166"
+            },
+            {
+              "key": "description",
+              "value": "test_description",
+              "type": "text",
+              "uuid": "845d1211-f5c8-47dd-bbcf-f9c758e8c2e0"
+            },
+            {
+              "key": "priceAmount",
+              "value": "1000",
+              "type": "text",
+              "uuid": "e64939e3-f0b2-46a4-bbc6-a004cbc9ac2f"
+            },
+            {
+              "key": "priceCurrency",
+              "value": "INR",
+              "type": "text",
+              "uuid": "e8c9055b-9931-404e-b9e5-695fede0da07"
+            },
+            {
+              "key": "images",
+              "type": "file",
+              "uuid": "1d9efaec-1e3e-46bd-a64a-fdc1698ccec8",
+              "src": [
+                "/C:/Users/kk234/OneDrive/Pictures/premium_photo-1661915661139-5b6a4e4a6fcc.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1510798831971-661eb04b3739.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1512917774080-9991f1c4c750.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1528228953047-fb292ecb300f.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1594872661628-602b96d31367.avif",
+                "/C:/Users/kk234/OneDrive/Pictures/photo-1597682496035-b04f723202a4.avif"
+              ]
+            },
+            {
+              "key": "category",
+              "value": "test_category",
+              "type": "text",
+              "uuid": "f62d0136-c576-42eb-9324-080371b5b710"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:5001/api/products/69675fdc4e56a57d4fe9d8db",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5001",
+          "path": [
+            "api",
+            "products",
+            "69675fdc4e56a57d4fe9d8db"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getProductBySeller",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5001/api/products/seller",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5001",
+          "path": [
+            "api",
+            "products",
+            "seller"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

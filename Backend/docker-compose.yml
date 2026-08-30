@@ -1,0 +1,155 @@
+
+services:
+
+  # ─── Infrastructure ───────────────────────────────────────────
+
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - vendex-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - vendex-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"   # RabbitMQ dashboard — localhost:15672
+    networks:
+      - vendex-network
+
+  # ─── Microservices ────────────────────────────────────────────
+
+  auth:
+    build: ./Auth
+    container_name: auth-service
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./Auth/.env
+    depends_on:
+      - mongodb
+      - redis
+      - rabbitmq
+    networks:
+      - vendex-network
+    restart: on-failure
+
+  product:
+    build: ./Product
+    container_name: product-service
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./Product/.env
+    depends_on:
+      - mongodb
+      - redis
+      - rabbitmq
+    networks:
+      - vendex-network
+    restart: on-failure
+
+  cart:
+    build: ./Cart
+    container_name: cart-service
+    ports:
+      - "5002:5002"
+    env_file:
+      - ./Cart/.env
+    depends_on:
+      - mongodb
+      - rabbitmq
+    networks:
+      - vendex-network
+    restart: on-failure
+
+  order:
+    build: ./Order
+    container_name: order-service
+    ports:
+      - "5003:5003"
+    env_file:
+      - ./Order/.env
+    depends_on:
+      - mongodb
+      - rabbitmq
+    networks:
+      - vendex-network
+    restart: on-failure
+
+  payment:
+    build: ./Payment
+    container_name: payment-service
+    ports:
+      - "5004:5004"
+    env_file:
+      - ./Payment/.env
+    depends_on:
+      - mongodb
+      - rabbitmq
+    networks:
+      - vendex-network
+    restart: on-failure
+
+  ai-buddy:
+    build: ./AI_Buddy
+    container_name: ai-buddy-service
+    ports:
+      - "5005:5005"
+    env_file:
+      - ./AI_Buddy/.env
+    depends_on:
+      - mongodb
+    networks:
+      - vendex-network
+    restart: on-failure
+
+  notification:
+    build: ./Notification
+    container_name: notification-service
+    ports:
+      - "5006:5006"
+    env_file:
+      - ./Notification/.env
+    depends_on:
+      - rabbitmq
+    networks:
+      - vendex-network
+    restart: on-failure
+
+  seller:
+    build: ./seller
+    container_name: seller-service
+    ports:
+      - "5007:5007"
+    env_file:
+      - ./seller/.env
+    depends_on:
+      - mongodb
+      - redis
+      - rabbitmq
+    networks:
+      - vendex-network
+    restart: on-failure
+
+# ─── Volumes & Networks ─────────────────────────────────────────
+
+volumes:
+  mongo_data:
+
+networks:
+  vendex-network:
+    driver: bridge

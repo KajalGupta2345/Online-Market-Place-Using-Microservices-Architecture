@@ -1,0 +1,234 @@
+{
+  "info": {
+    "_postman_id": "2b2b0b01-a591-4ab7-942d-29f7d84f5b8a",
+    "name": "Authentication",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49263724",
+    "_collection_link": "https://go.postman.co/collection/49263724-2b2b0b01-a591-4ab7-942d-29f7d84f5b8a?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "register user",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\":\"kajal_4220\",\r\n    \"email\": \"kk2347994@gmail.com\",\r\n    \"fullname\": {\r\n        \"firstname\": \"kajal\",\r\n        \"lastname\": \"Kumari\"\r\n    },\r\n    \"password\": \"Kajal@123\",\r\n    \"role\":\"seller\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login user",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n     \"username\":\"kajal_4220\",\r\n    \"password\": \"Kajal@123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "add Address",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"addresses\": [\r\n    {\r\n      \"street\": \"Malighat Chowk\",\r\n      \"city\": \"Muzaffarpur\",\r\n      \"state\": \"Bihar\",\r\n      \"country\": \"India\",\r\n      \"zip\": \"842001\"\r\n    }\r\n  ]\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/user/me/addresses",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "auth",
+            "user",
+            "me",
+            "addresses"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get Address",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/auth/user/me/addresses",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "auth",
+            "user",
+            "me",
+            "addresses"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get user",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/auth/me",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "auth",
+            "me"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete Address",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/auth/user/me/addresses/6960ceb1385d19c062fdce7b",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "auth",
+            "user",
+            "me",
+            "addresses",
+            "6960ceb1385d19c062fdce7b"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": " http://localhost:5000/api/auth/register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"john_doe1\",\r\n  \"email\": \"john1@example.com\",\r\n  \"password\": \"Secret123!\",\r\n  \"fullname\": {\r\n    \"firstname\": \"John\",\r\n    \"lastname\": \"Doe\"\r\n  },\r\n  \"role\": \"user\",\r\n  \"addresses\": [\r\n    {\r\n      \"street\": \"123 MG Road\",\r\n      \"city\": \"Mumbai\",\r\n      \"state\": \"Maharashtra\",\r\n      \"country\": \"India\",\r\n      \"zip\": \"400001\"\r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": " http://localhost:5000/api/auth/",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"john_doe1\",\r\n  \"email\": \"john1@example.com\",\r\n  \"password\": \"Secret123!\",\r\n  \"fullname\": {\r\n    \"firstname\": \"John\",\r\n    \"lastname\": \"Doe\"\r\n  },\r\n  \"role\": \"user\",\r\n  \"addresses\": [\r\n    {\r\n      \"street\": \"123 MG Road\",\r\n      \"city\": \"Mumbai\",\r\n      \"state\": \"Maharashtra\",\r\n      \"country\": \"India\",\r\n      \"zip\": \"400001\"\r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
