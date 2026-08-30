@@ -1,0 +1,226 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: #f1f3ec;
+  color: #16211d;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: 'Fraunces', serif;
+  letter-spacing: -0.01em;
+}
+
+.font-mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+::selection {
+  background: #c9962b;
+  color: #16211d;
+}
+
+:focus-visible {
+  outline: 2px solid #c9962b;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.container-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #2c5c52;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.15s ease,
+    box-shadow 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.btn-primary {
+  background: #163832;
+  color: #f1f3ec;
+}
+.btn-primary:hover {
+  background: #0f2924;
+  box-shadow: 0 4px 14px -4px rgba(22, 56, 50, 0.5);
+  transform: translateY(-1px);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-accent {
+  background: #c9962b;
+  color: #16211d;
+}
+.btn-accent:hover {
+  background: #a87a1d;
+  box-shadow: 0 4px 14px -4px rgba(201, 150, 43, 0.6);
+  transform: translateY(-1px);
+}
+.btn-accent:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #163832;
+  border: 1px solid #dce0d3;
+}
+.btn-ghost:hover {
+  border-color: #163832;
+  background: #e9efed;
+}
+
+.btn-danger {
+  background: transparent;
+  color: #a6432e;
+  border: 1px solid #dce0d3;
+}
+.btn-danger:hover {
+  border-color: #a6432e;
+  background: #fbeeea;
+}
+
+/* ---------- Inputs ---------- */
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 5px;
+  border: 1px solid #dce0d3;
+  background: #fff;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.input:hover {
+  border-color: #b7c0ac;
+}
+.input:focus {
+  border-color: #163832;
+  box-shadow: 0 0 0 3px rgba(22, 56, 50, 0.1);
+  outline: none;
+}
+
+/* ---------- Cards ---------- */
+
+.card {
+  background: #fff;
+  border: 1px solid #dce0d3;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(22, 33, 29, 0.06), 0 1px 12px rgba(22, 33, 29, 0.05);
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+a.card:hover,
+.card-hover:hover {
+  box-shadow: 0 12px 24px -8px rgba(22, 33, 29, 0.22);
+  transform: translateY(-3px);
+  border-color: #b7c0ac;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* ---------- Signature: stall ticket tag ---------- */
+/* A small torn-ticket price tag, evoking a market stall's handwritten price card. */
+
+.stall-tag {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+}
+
+.stall-number {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #2c5c52;
+  letter-spacing: 0.04em;
+}
+
+/* Nav underline hover */
+.nav-link {
+  position: relative;
+  padding-bottom: 2px;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -3px;
+  height: 2px;
+  background: #c9962b;
+  transition: right 0.2s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  right: 0;
+}
