@@ -12,7 +12,7 @@ async function createOrder(req, res) {
     const cartResponse = await axios.get(`${process.env.CART_SERVICE_URL}/api/cart/items`, {
       headers: {
         Authorization: `Bearer ${token}`
-      } 
+      }
     });
 
     const cartItems = cartResponse.data.cart.items;
@@ -63,10 +63,16 @@ async function createOrder(req, res) {
       status: "PENDING",
       shippingAddress: req.body.shippingAddress,
     });
-    
-    await publishToQueue('ORDER_SELLER_DASHBOARD.ORDER_CREATED',orders);
+
+    await publishToQueue('ORDER_SELLER_DASHBOARD.ORDER_CREATED', orders);
+    await publishToQueue('ORDER_PRODUCT.STOCK_DECREMENT', {
+      items: orderItems.map((item) => ({
+        productId: item.product,
+        quantity: item.quantity
+      }))
+    });
     res.status(201).json(orders);
- } catch (err) {
+  } catch (err) {
     if (
       err.message === 'cart service down' ||
       err.message === 'Product service error' ||
