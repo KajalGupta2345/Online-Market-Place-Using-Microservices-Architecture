@@ -10,7 +10,7 @@ app.use(cookieParser());
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'https://<tumhara-deployed-frontend-domain-agar-hai>'
+    'https://vendex-frontend.onrender.com'
   ],
   credentials: true
 }));
